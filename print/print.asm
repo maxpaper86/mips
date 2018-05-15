@@ -1,29 +1,40 @@
 ## data section
                 .data
-var_char:       .byte '1'
-var_short:      .half 2 
-var_int:        .word 4
+var_char:       .byte 0
+var_short:      .half 0 
+var_int:        .word 0
 ## text section
                 .text
                 .globl main
 main:
+## var_char = '1'
+                li $t0, '1'             # $t0 = '1'
+                sb $t0, var_char        # var_char = '1'
 ## printf("%c\n", var_char);
                 li $v0, 11              # syscall 11 (print_character)
-                lw $a0, var_char        # $a0 = var_char
+                xor $a0, $a0, $a0       # $a0 = 0
+                lb $a0, var_char        # $a0 = var_char
                 syscall                 # issue syscall 11
                 li $v0, 11              # syscall 11 (print_char)
                 li $a0, '\n'            # $a0 = '\n'
                 syscall                 # issue syscall 11
+## var_short = 2
+                li $t0, 2
+                sh $t0, var_short
 ## printf("%d\n", var_short);
-                li $v0, 1               # syscall 1 (print_s)
-                li $a0, 0               # $a0 = 0
+                li $v0, 1               # syscall 1 (print_int)
+                xor $a0, $a0, $a0       # $a0 = 0
                 lh $a0, var_short       # $a0 = var_short
                 syscall                 # issue syscall 1
                 li $v0, 11              # syscall 11 (print_char)
                 li $a0, '\n'            # $a0 = '\n'
                 syscall                 # issue syscall 11
+## var_int = 4
+                li $t0, 4
+                sw $t0, var_int
 ## printf("%d\n", var_int);
                 li $v0, 1               # syscall 1 (print_int)
+                xor $a0, $a0, $a0       # $a0 = 0
                 lw $a0, var_int         # $a0 = var_int
                 syscall                 # print the integer
                 li $v0, 11              # syscall 11 (print_char)
